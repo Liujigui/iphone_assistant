@@ -461,7 +461,7 @@
             onoff = !onoff
         } else {
             if (!/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(email.value))
-                alert("邮箱地址不合法");
+                alert("请检查邮箱地址是否错误！");
             else {
                 $.ajax({
                     //请求方式
@@ -474,6 +474,7 @@
                     url: "/addUser",
                     //请求成功
                     success: function (result) {
+                        $("#email").val("");
                         alert(result.data);
                     },
                     //请求失败，包含具体的错误信息
@@ -490,7 +491,7 @@
     function unsubscribe() {
         if (onoff) {
             if (!/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(email.value))
-                alert("邮箱地址不合法");
+                alert("请检查邮箱地址是否错误！");
             else {
                 $.ajax({
                     //请求方式
@@ -503,6 +504,7 @@
                     url: "/delUser",
                     //请求成功
                     success: function (result) {
+                        $("#email").val("");
                         if (result.code === "200") {
                             alert("已退订成功，不会再给您发送提醒！")
                         } else {
