@@ -22,11 +22,8 @@ mysql 5.7
 1.  导入db文件夹下数据库文件
 2.  修改db.setting文件中数据库名和账户密码
 3.  运行系统，自动监控
-4.  新增监控通知和门店、型号接口：http://localhost:8080/addUser 
-    - 参数说明：{"model": 21,"email": "zhangsan@163.com","city": "广州"}
-    - 参数model为数据库中型号对应的ID
-5.  如果需要微信消息通知，自行百度：server酱，添加对应的sukey，进行微信消息通知
-6.  邮箱通知，需要修改application.yml中配置。
+4.  如果需要微信消息通知，自行百度：server酱，添加对应的sukey，进行微信消息通知
+5.  邮箱通知，需要修改application.yml中配置。
 
 #### V2.0新增可视化操作界面
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/1028/173905_54cebdaa_1890767.png "QQ截图20201028173836.png")
