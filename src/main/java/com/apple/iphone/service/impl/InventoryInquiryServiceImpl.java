@@ -1,5 +1,7 @@
 package com.apple.iphone.service.impl;
 
+import cn.hutool.core.date.DateUnit;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.db.Db;
 import cn.hutool.db.Entity;
 import cn.hutool.http.HttpUtil;
@@ -102,7 +104,7 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
             return;
         }
         try {
-            List<Entity> result = Db.use().query("SELECT M.model,S.storeNumber,U.email,u.city,s.storeName FROM USER U JOIN MODEL M ON U.model=M.ID JOIN stores S ON U.city=S.city WHERE U.`status`=?", 0);
+            List<Entity> result = Db.use().query("SELECT U.id,M.model,S.storeNumber,U.email,u.city,s.storeName FROM USER U JOIN MODEL M ON U.model=M.ID JOIN stores S ON U.city=S.city WHERE U.`status`=?", 0);
             result.forEach(entity -> {
                 //查询指定门店库存信息
                 JSONObject stores = storesInfo.getJSONObject(entity.getStr("storeNumber"));
@@ -110,16 +112,21 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
                 JSONObject model = stores.getJSONObject(entity.getStr("model"));
                 //是否有库存
                 boolean unlocked = model.getJSONObject("availability").getBool("unlocked");
-                Date d = new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                //城市和门店名称
                 String storeName = entity.getStr("city") + entity.getStr("storeName");
                 //监测到有库存
                 if (unlocked) {
-                    log.info(sdf.format(d) + ": {}发现有库存！", storeName);
-                    mailService.sendHtmlMail("兄弟，有库存了", "<html><head><title>contact us</title></head><body><b>" + storeName + ":</b></br><b>已经检测到你订阅的型号有库存，快冲！！！</b></br><a href=\"https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability?iUP=N\">点击预约</a></body></html>", new String[]{entity.getStr("email")});
+                    log.info(DateUtil.now() + ": {}发现有库存！", storeName);
+                    //查询是否可以进行发送邮件  防止段时间发送过多 造成打扰
+                    if (intervals(entity.getInt("id"))) {
+                        //开始发送邮件
+                        mailService.sendHtmlMail("兄弟，有库存了", "<html><head><title>contact us</title></head><body><b>" + storeName + ":</b></br><b>已经检测到你订阅的型号有库存，快冲！！！</b></br><a href=\"https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability?iUP=N\">点击预约</a></body></html>", new String[]{entity.getStr("email")});
+                        //更新邮件发送时间
+                        updateNotificationTime(entity.getInt("id"));
+                    }
                     serverj(storeName, "已经检测到你订阅的型号有库存，快冲！！！");
                 } else {
-                    log.warn(sdf.format(d) + ": {}没有库存！", storeName);
+                    log.warn(DateUtil.now() + ": {}没有库存！", storeName);
                 }
             });
         } catch (SQLException e) {
@@ -261,6 +268,56 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
             e.printStackTrace();
         }
         return ResultUtil.fail(CodeEnum.ERROR.val(), "系统异常");
+    }
+
+    /**
+     * 查询 指定用户上次发送邮件距离本次发送邮件市场
+     * 30秒内 不重复通知
+     * 避免邮件轰炸骚扰
+     *
+     * @param id 用户id
+     * @return
+     */
+    public Boolean intervals(Integer id) {
+        final boolean[] flag = {false};
+        try {
+            //根据用户ID查询上一次发送邮件时间 和 当前时间
+            List<Entity> ret = Db.use().query("SELECT notificationTime,now() as currentTime FROM user where id = ?", id);
+            ret.forEach(entity -> {
+                //上一次发送邮件时间
+                String notificationTime = entity.getStr("notificationTime");
+                //当前系统时间
+                String currentTime = entity.getStr("currentTime");
+                Date curTime = DateUtil.parse(currentTime, "yyyy-MM-dd HH:mm:ss");
+                if (!StringUtils.isEmpty(notificationTime)) {
+                    Date notifTime = DateUtil.parse(notificationTime, "yyyy-MM-dd HH:mm:ss");
+                    long betweenSecond = DateUtil.between(curTime, notifTime, DateUnit.SECOND);
+                    //大于等于30则可以进行重新发送邮件通知
+                    flag[0] = betweenSecond >= 30;
+                    log.info("相隔时间(秒)：{}", betweenSecond);
+                }
+            });
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return flag[0];
+    }
+
+    /**
+     * 更新邮件通知时间
+     *
+     * @param id 用户id
+     * @return
+     */
+    public void updateNotificationTime(Integer id) {
+        try {
+            Db.use().update(
+                    Entity.create().set("notificationTime", new Date()), //修改的数据
+                    Entity.create("user").set("id", id) //where条件
+            );
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     /**
