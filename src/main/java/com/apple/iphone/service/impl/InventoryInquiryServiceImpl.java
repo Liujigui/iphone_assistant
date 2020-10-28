@@ -117,7 +117,7 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
                 //监测到有库存
                 if (unlocked) {
                     log.info(DateUtil.now() + ": {}发现有库存！", storeName);
-                    //查询是否可以进行发送邮件  防止段时间发送过多 造成打扰
+                    //查询是否可以进行发送邮件  防止短时间发送过多 造成打扰
                     if (intervals(entity.getInt("id"))) {
                         //开始发送邮件
                         mailService.sendHtmlMail("兄弟，有库存了", "<html><head><title>contact us</title></head><body><b>" + storeName + ":</b></br><b>已经检测到你订阅的型号有库存，快冲！！！</b></br><a href=\"https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability?iUP=N\">点击预约</a></body></html>", new String[]{entity.getStr("email")});
