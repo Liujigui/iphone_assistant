@@ -22,6 +22,7 @@ import org.springframework.util.StringUtils;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -57,6 +58,9 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
      **/
     @Value("${apple.stores}")
     private String stores;
+
+    @Value("${serverj.sckey}")
+    private String sckey;
 
     /**
      * @return
@@ -101,9 +105,11 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
                 boolean unlocked = model.getJSONObject("availability").getBool("unlocked");
                 Date d = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String storeName = entity.getStr("city") + entity.getStr("storeName");
                 if (unlocked) {
-                    log.info(sdf.format(d) + ": {}发现有库存！", entity.getStr("city") + entity.getStr("storeName"));
-                    mailService.sendHtmlMail("兄弟，有库存了", "<html><head><title>contact us</title></head><body><b>"+entity.getStr("city") + entity.getStr("storeName")+":</b></br><b>已经检测到你订阅的型号有库存，快冲！！！</b></br><a href=\"https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability?iUP=N\">点击预约</a></body></html>", new String[]{entity.getStr("email")});
+                    log.info(sdf.format(d) + ": {}发现有库存！", storeName);
+                    mailService.sendHtmlMail("兄弟，有库存了", "<html><head><title>contact us</title></head><body><b>"+storeName+":</b></br><b>已经检测到你订阅的型号有库存，快冲！！！</b></br><a href=\"https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability?iUP=N\">点击预约</a></body></html>", new String[]{entity.getStr("email")});
+                    serverj(storeName,"已经检测到你订阅的型号有库存，快冲！！！");
                 } else {
                     log.warn(sdf.format(d) + ": {}没有库存！", entity.getStr("city") + entity.getStr("storeName"));
                 }
@@ -247,5 +253,21 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
             e.printStackTrace();
         }
         return ResultUtil.fail(CodeEnum.ERROR.val(), "系统异常");
+    }
+
+    /**
+     * @Author liujg
+     * @Description //TODO 发送微信消息通知
+     * @Date 2020年10月28日08:22:22
+     * @Param text：消息标题，最长为256，必填。
+     * @Param desp：消息内容，最长64Kb，可空，支持MarkDown。
+     * @return
+     **/
+    public void serverj(String text,String desp){
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("text", text);
+        paramMap.put("desp", desp);
+        HttpUtil.post("https://sc.ftqq.com/"+sckey+".send", paramMap);
+        log.info("微信消息发送成功！");
     }
 }
