@@ -28,6 +28,8 @@ mysql 5.7
 5.  如果需要微信消息通知，自行百度：server酱，添加对应的sukey，进行微信消息通知
 6.  邮箱通知，需要修改application.yml中配置。
 
+#### V2.0新增可视化操作界面
+![输入图片说明](https://images.gitee.com/uploads/images/2020/1028/173800_dd7cfd9a_1890767.png "QQ截图20201028173750.png")
 
 #### 效果
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/1028/101357_b685c288_1890767.png "QQ截图20201028092635.png")
