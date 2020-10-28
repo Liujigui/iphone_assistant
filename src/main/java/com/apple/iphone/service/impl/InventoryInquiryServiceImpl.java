@@ -59,6 +59,13 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
     @Value("${apple.stores}")
     private String stores;
 
+    /** 
+     * @Author liujg
+     * @Description //TODO server酱 秘钥
+     * @Date 08:26 2020/10/28
+     * @Param 
+     * @return 
+     **/
     @Value("${serverj.sckey}")
     private String sckey;
 
