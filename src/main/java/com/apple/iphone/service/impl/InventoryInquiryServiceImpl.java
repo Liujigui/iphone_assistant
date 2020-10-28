@@ -103,7 +103,7 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 if (unlocked) {
                     log.info(sdf.format(d) + ": {}发现有库存！", entity.getStr("city") + entity.getStr("storeName"));
-                    mailService.sendHtmlMail("兄弟，有库存了", "<html><head><title>contact us</title></head><body><b>已经检测到你订阅的型号有库存，快冲！！！</b></br><a href=\"https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability?iUP=N\">点击预约</a></body></html>", new String[]{entity.getStr("email")});
+                    mailService.sendHtmlMail("兄弟，有库存了", "<html><head><title>contact us</title></head><body><b>"+entity.getStr("city") + entity.getStr("storeName")+":</b></br><b>已经检测到你订阅的型号有库存，快冲！！！</b></br><a href=\"https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability?iUP=N\">点击预约</a></body></html>", new String[]{entity.getStr("email")});
                 } else {
                     log.warn(sdf.format(d) + ": {}没有库存！", entity.getStr("city") + entity.getStr("storeName"));
                 }
