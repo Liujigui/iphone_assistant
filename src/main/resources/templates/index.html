@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/x-icon" href="#"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="icon/iconfont.css">
+    <link rel="stylesheet" href="modal.css">
     <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
     </script>
     <title>苹果库存 - 监控订阅</title>
@@ -353,7 +355,8 @@
                         <input type="button" value="退订" class="btn" onclick="unsubscribe()" style="margin-right: 20px;">
                         <input type="button" value="订阅" class="btn" onclick='subscription()' id="btn">
                     </form>
-                    <a href="https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability?iUP=N#" target="_blank">前往官网预约</a>
+                    <a href="https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability?iUP=N#" target="_blank">进入官网预约</a>
+                    <a id="explanation" href="#" style="font-size: 14px;margin-top: 35px;">怎么用?</a>
                 </span>
         </div>
 
@@ -444,7 +447,7 @@
 
     //自动居中title
     var name_c = document.getElementById("title")
-    name = name_c.innerHTML.split("")
+    var name = name_c.innerHTML.split("")
     name_c.innerHTML = ""
     for (i = 0; i < name.length; i++)
         if (name[i] !== ",")
@@ -468,7 +471,7 @@
                     type: "POST",
                     //请求的媒体类型
                     contentType: "application/json;charset=UTF-8",
-                    data:JSON.stringify({"email":email.value,"city":city.value,"model":model.value}),
+                    data: JSON.stringify({"email": email.value, "city": city.value, "model": model.value}),
                     dataType: "json",
                     //请求地址
                     url: "/addUser",
@@ -498,7 +501,7 @@
                     type: "GET",
                     //请求的媒体类型
                     contentType: "application/json;charset=UTF-8",
-                    data:{"email":email.value},
+                    data: {"email": email.value},
                     dataType: "json",
                     //请求地址
                     url: "/delUser",
@@ -528,5 +531,25 @@
         }
     }
 
+    //说明
+    $(function () {
+        const mModal1 = new mModal({
+            content: "<p>一、页面分为两种功能</p>" +
+                "<p>1.退订（取消库存监控通知，我不想收邮件了）</p>" +
+                "<p>2.订阅（开启库存监控，收邮件通知）</p>" +
+                "<p>二、此系统仅为各位省去手动刷新库存问题，解放双手</p>" +
+                "<p>三、收到库存消息通知后还需自己立即前往官网进行预约</p>",
+            confirm: function () {
+                mModal1.close();
+            },
+            cancel: function () {
+                mModal1.close();
+            }
+        });
+        $("#explanation").on("click", function () {
+            mModal1.renderDom();
+        })
+    })
 </script>
+<script src="modal.js"></script>
 </html>
