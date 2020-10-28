@@ -4,7 +4,7 @@
 苹果最新发布的iPhone12Pro系列，由于产量较小，目前市场火热。
 线上购买等待时间较长，奈何我等实在不愿意等，能线下预约购买最好，谁知线下库存依旧见底，少有部分，需要时刻守着电脑刷新，让人枯燥！
 
-在线体验地址：[http://bl0vdn7l.dongtaiyuming.net](http://)
+在线体验地址：[http://bl0vdn7l.dongtaiyuming.net](http://bl0vdn7l.dongtaiyuming.net)
 
  **快速抢购预约建议** 
 
