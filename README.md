@@ -25,7 +25,7 @@ mysql 5.7
 4.  新增监控通知和门店、型号接口：http://localhost:8080/addUser 
     - 参数说明：{"model": 21,"email": "zhangsan@163.com","city": "广州"}
     - 参数model为数据库中型号对应的ID
-5.  如果需要微信消息通知，自行百度：servlet酱，添加对应的sukey，进行微信消息通知
+5.  如果需要微信消息通知，自行百度：server酱，添加对应的sukey，进行微信消息通知
 6.  邮箱通知，需要修改application.yml中配置。
 
 
