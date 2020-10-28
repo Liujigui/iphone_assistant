@@ -3,7 +3,6 @@ package com.apple.iphone.scheduling;
 import com.apple.iphone.service.InventoryInquiryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.scheduling.annotation.Schedules;
 import org.springframework.stereotype.Component;
 
 /**
