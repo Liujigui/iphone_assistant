@@ -1,12 +1,15 @@
 spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+
   #配置邮箱
   mail:
-    host: smtp.qq.com #邮箱服务商的protocol服务器主机 #smtp.qq.com
+    host: smtp.163.com #邮箱服务商的protocol服务器主机 #smtp.qq.com
     port: 465
     protocol: smtp #smtp
-    username: 958023782@qq.com #*****@qq.com
+    username: iphonesys@163.com #*****@qq.com
     nickname: iPhone12库存监控通知 #邮件通知主题
-    password: aaa #邮箱账号密码或者三方登录授权码 #jwgteykojlf*****
+    password: **** #邮箱账号密码或者三方登录授权码 #jwgteykojlf*****
     default-encoding:  UTF-8
     properties:
       mail:
@@ -15,7 +18,6 @@ spring:
             class: javax.net.ssl.SSLSocketFactory
         debug: false #调试模式
     test-connection: false #启动项目时验证是否可以正确通信 默认为false
-
 
 
 apple:
@@ -27,4 +29,4 @@ apple:
 
 #server酱  微信消息通知
 serverj:
-  sckey: aaa
+  sckey: SCU115741T18e02ac05ba4e4c669bcb5de741a57d55f7119e1b75e55

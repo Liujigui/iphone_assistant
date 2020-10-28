@@ -58,14 +58,14 @@ public class InventoryInquiryController {
     }
 
     /**
-     * @param email
+     * @param email 邮箱地址
      * @return
      * @Author liujg
      * @Description //TODO 删除订阅用户监测
      * @Date 22:01 2020/10/27
      * @Param
      */
-    @PostMapping(value = "/delUser")
+    @GetMapping(value = "/delUser")
     public ResultUtil delUser(@RequestParam String email) {
         return inventoryInquiryService.delUser(email);
     }

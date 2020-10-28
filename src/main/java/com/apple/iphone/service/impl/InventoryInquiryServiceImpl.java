@@ -231,6 +231,7 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        log.info("已退订库存监测：{}",email);
         return ResultUtil.success("库存监测订阅取消完成！");
     }
 
