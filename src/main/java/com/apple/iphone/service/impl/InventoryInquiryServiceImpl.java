@@ -118,7 +118,7 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
                     mailService.sendHtmlMail("兄弟，有库存了", "<html><head><title>contact us</title></head><body><b>"+storeName+":</b></br><b>已经检测到你订阅的型号有库存，快冲！！！</b></br><a href=\"https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability?iUP=N\">点击预约</a></body></html>", new String[]{entity.getStr("email")});
                     serverj(storeName,"已经检测到你订阅的型号有库存，快冲！！！");
                 } else {
-                    log.warn(sdf.format(d) + ": {}没有库存！", entity.getStr("city") + entity.getStr("storeName"));
+                    log.warn(sdf.format(d) + ": {}没有库存！", storeName);
                 }
             });
         } catch (SQLException e) {
