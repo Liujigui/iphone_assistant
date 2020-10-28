@@ -4,9 +4,9 @@ spring:
     host: smtp.qq.com #邮箱服务商的protocol服务器主机 #smtp.qq.com
     port: 465
     protocol: smtp #smtp
-    username: xxx@qq.com #*****@qq.com
+    username: 958023782@qq.com #*****@qq.com
     nickname: iPhone12库存监控通知 #邮件通知主题
-    password: xxx #邮箱账号密码或者三方登录授权码 #jwgteykojlf*****
+    password: aaa #邮箱账号密码或者三方登录授权码 #jwgteykojlf*****
     default-encoding:  UTF-8
     properties:
       mail:
@@ -23,3 +23,8 @@ apple:
   stockAddress: https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability.json
   #apple 直营店信息
   stores: https://reserve-prime.apple.com/CN/zh_CN/reserve/A/stores.json
+
+
+#server酱  微信消息通知
+serverj:
+  sckey: aaa
