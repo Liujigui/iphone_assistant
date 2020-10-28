@@ -59,12 +59,12 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
     @Value("${apple.stores}")
     private String stores;
 
-    /** 
+    /**
      * @Author liujg
      * @Description //TODO server酱 秘钥
      * @Date 08:27 2020/10/28
-     * @Param 
-     * @return 
+     * @Param
+     * @return
      **/
     @Value("${serverj.sckey}")
     private String sckey;
@@ -97,7 +97,7 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
      * @Param
      **/
     public void notify(JSONObject storesInfo) {
-        if(StringUtils.isEmpty(storesInfo)){
+        if (StringUtils.isEmpty(storesInfo)) {
             log.error("接口已关闭，维护中！！！");
             return;
         }
@@ -113,10 +113,11 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
                 Date d = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String storeName = entity.getStr("city") + entity.getStr("storeName");
+                //监测到有库存
                 if (unlocked) {
                     log.info(sdf.format(d) + ": {}发现有库存！", storeName);
-                    mailService.sendHtmlMail("兄弟，有库存了", "<html><head><title>contact us</title></head><body><b>"+storeName+":</b></br><b>已经检测到你订阅的型号有库存，快冲！！！</b></br><a href=\"https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability?iUP=N\">点击预约</a></body></html>", new String[]{entity.getStr("email")});
-                    serverj(storeName,"已经检测到你订阅的型号有库存，快冲！！！");
+                    mailService.sendHtmlMail("兄弟，有库存了", "<html><head><title>contact us</title></head><body><b>" + storeName + ":</b></br><b>已经检测到你订阅的型号有库存，快冲！！！</b></br><a href=\"https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability?iUP=N\">点击预约</a></body></html>", new String[]{entity.getStr("email")});
+                    serverj(storeName, "已经检测到你订阅的型号有库存，快冲！！！");
                 } else {
                     log.warn(sdf.format(d) + ": {}没有库存！", storeName);
                 }
@@ -186,7 +187,7 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
         if (StringUtils.isEmpty(user.getModel())) {
             return ResultUtil.fail(CodeEnum.ERROR.val(), "参数非法，监控机型不允许为空！");
         }
-        log.info("用户数据：{}",user.toString());
+        log.info("用户数据：{}", user.toString());
         //插入数据库
         try {
             Db.use().insert(
@@ -263,18 +264,18 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
     }
 
     /**
+     * @return
      * @Author liujg
      * @Description //TODO 发送微信消息通知
      * @Date 2020年10月28日08:22:22
      * @Param text：消息标题，最长为256，必填。
      * @Param desp：消息内容，最长64Kb，可空，支持MarkDown。
-     * @return
      **/
-    public void serverj(String text,String desp){
+    public void serverj(String text, String desp) {
         HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("text", text);
         paramMap.put("desp", desp);
-        HttpUtil.post("https://sc.ftqq.com/"+sckey+".send", paramMap);
+        HttpUtil.post("https://sc.ftqq.com/" + sckey + ".send", paramMap);
         log.info("微信消息发送成功！");
     }
 }
