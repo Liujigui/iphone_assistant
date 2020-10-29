@@ -23,7 +23,6 @@ import org.springframework.util.StringUtils;
 
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -112,7 +111,9 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
                     if (intervals(entity.getInt("id"))) {
                         //开始发送邮件
                         mailService.sendHtmlMail("监测到有库存了，手快有手慢无", "<html><head><title>contact us</title></head><body><b>" + storeName + ":</b></br><b>已经检测到你订阅的:" + modelName + "，有库存，快冲！！！</b></br>" +
-                                "<a href=\"https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability?iUP=N\">点击预约</a></body></html>", new String[]{entity.getStr("email")});
+                                "<a href=\"https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability?iUP=N\">点击预约</a>------</br></br></br>" +
+                                "<a href=\"http://bl0vdn7l.dongtaiyuming.net/\">不想接收监控邮件通知了，点我取消</a>" +
+                                "</body></html>", new String[]{entity.getStr("email")});
                         //更新邮件发送时间
                         updateNotificationTime(entity.getInt("id"));
                     }
