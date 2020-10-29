@@ -357,9 +357,9 @@
                     </form>
                     <a href="https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability?iUP=N#" target="_blank">进入官网预约</a>
                     <a id="explanation" href="#" style="font-size: 14px;margin-top: 35px;">怎么用?</a>
-                </span>
+            </span>
+            <p id="reward" style="margin-top: 80%;cursor: pointer;color: #ffffff;font-size: 14px;text-align: right;">&#165;打赏</p>
         </div>
-
         <div id="login_img"><!-- 图片绘制框 -->
             <span class="circle">
                     <span></span>
@@ -533,22 +533,40 @@
 
     //说明
     $(function () {
-        const mModal1 = new mModal({
+        const explanation = new mModal({
             content: "<p>一、系统分为两种功能</p>" +
-                "<p>1. 退订（取消库存监控通知，我不想收邮件了）</p>" +
-                "<p>2. 订阅（开启库存监控，收邮件通知）</p><br>" +
+                "<p>1. 退订（取消库存监控邮件通知）</p>" +
+                "<p>2. 订阅（开启库存监控邮件通知）</p><br>" +
                 "<p>二、此系统仅为各位省去手动刷新库存问题，解放双手.</p><br>" +
                 "<p>三、收到库存消息通知后还需自己立即前往官网进行预约.</p>",
             confirm: function () {
-                mModal1.close();
+                explanation.close();
             },
             cancel: function () {
-                mModal1.close();
+                explanation.close();
             }
         });
+        //说明按钮
         $("#explanation").on("click", function () {
-            mModal1.renderDom();
-        })
+            explanation.renderDom();
+        });
+        const reward = new mModal({
+            content: "<p style='text-align: center;'>首先非常感谢您对本系统的支持！</p><br>" +
+                "<p>本系统属个人空余时间进行开发与维护，尽最大能力满足各位需求！</p>" +
+                "<p>如果您在使用后觉得对您有帮助，并愿意继续支持作者的开发维护！</p><br>" +
+                "<p>打开微信扫一扫，随意打赏，再次感谢您对作者的支持。</p>"+
+                "<div style='width:480px;height: 200px;display: table-cell;text-align: center;'><img style='width: 150px;height: 195px;' src=\"images/wxpay.png\" alt=\"微信”扫一扫“\"></div>",
+            confirm: function () {
+                reward.close();
+            },
+            cancel: function () {
+                reward.close();
+            }
+        });
+        //打赏按钮
+        $("#reward").on("click", function () {
+            reward.renderDom();
+        });
     })
 </script>
 <script src="modal.js"></script>
