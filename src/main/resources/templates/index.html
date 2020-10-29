@@ -358,7 +358,8 @@
                     <a href="https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability?iUP=N#" target="_blank">进入官网预约</a>
                     <a id="explanation" href="#" style="font-size: 14px;margin-top: 35px;">怎么用?</a>
             </span>
-            <p id="reward" style="margin-top: 80%;cursor: pointer;color: #ffffff;font-size: 14px;text-align: right;">&#165;打赏&nbsp;&nbsp;</p>
+            <p id="reward" style="margin-top: 80%;cursor: pointer;color: #ffffff;font-size: 14px;text-align: right;">
+                &#165;打赏&nbsp;&nbsp;</p>
         </div>
         <div id="login_img"><!-- 图片绘制框 -->
             <span class="circle">
@@ -403,7 +404,7 @@
             url: "/getStores",
             //请求成功
             success: function (result) {
-                if (result.code === "200") {
+                if (result.code === 200) {
                     $.each(result.data, function (index, item) {
                         $("#city").append(  //此处向select中循环绑定数据
                             "<option value=" + item.city + ">" + item.city + "</option>");
@@ -428,7 +429,7 @@
             url: "/getModel",
             //请求成功
             success: function (result) {
-                if (result.code === "200") {
+                if (result.code === 200) {
                     $.each(result.data, function (index, item) {
                         $("#model").append(  //此处向select中循环绑定数据
                             "<option value=" + item.id + ">" + item.content + "</option>");
@@ -478,7 +479,11 @@
                     //请求成功
                     success: function (result) {
                         $("#email").val("");
-                        alert(result.data);
+                        if (result.code === 200) {
+                            alert(result.data);
+                        } else {
+                            alert(result.msg);
+                        }
                     },
                     //请求失败，包含具体的错误信息
                     error: function (e) {
@@ -508,10 +513,10 @@
                     //请求成功
                     success: function (result) {
                         $("#email").val("");
-                        if (result.code === "200") {
-                            alert("已退订成功，不会再给您发送提醒！")
+                        if (result.code === 200) {
+                            alert(result.data);
                         } else {
-                            alert("已退订失败，请确认该邮箱是否订阅！")
+                            alert(result.msg);
                         }
                     },
                     //请求失败，包含具体的错误信息
@@ -554,7 +559,7 @@
             content: "<p style='text-align: center;'>首先非常感谢您对本系统的支持！</p><br>" +
                 "<p>本系统属个人空余时间进行开发与维护，尽最大能力满足各位需求！</p>" +
                 "<p>如果您在使用后觉得对您有帮助，并愿意继续支持作者的开发维护！</p><br>" +
-                "<p>打开微信扫一扫，随意打赏，再次感谢您对作者的支持。</p>"+
+                "<p>打开微信扫一扫，随意打赏，再次感谢您对作者的支持。</p>" +
                 "<div style='width:480px;height: 200px;display: table-cell;text-align: center;'><img style='width: 150px;height: 195px;' src=\"images/wxpay.png\" alt=\"微信”扫一扫“\"></div>",
             confirm: function () {
                 reward.close();

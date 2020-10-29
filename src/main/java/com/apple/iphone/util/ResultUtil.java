@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 public class ResultUtil {
 
-    private String code;
+    private int code;
 
     private String msg;
 
@@ -27,15 +27,15 @@ public class ResultUtil {
         return resultData(CodeEnum.SUCCESS.val(), msg, data);
     }
 
-    public static ResultUtil fail(String code, String msg) {
+    public static ResultUtil fail(int code, String msg) {
         return resultData(code, msg, null);
     }
 
-    public static ResultUtil fail(String code, String msg, Object data) {
+    public static ResultUtil fail(int code, String msg, Object data) {
         return resultData(code, msg, data);
     }
 
-    private static ResultUtil resultData(String code, String msg, Object data) {
+    private static ResultUtil resultData(int code, String msg, Object data) {
         ResultUtil resultData = new ResultUtil();
         resultData.setCode(code);
         resultData.setMsg(msg);

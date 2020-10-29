@@ -185,28 +185,27 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
             return ResultUtil.fail(CodeEnum.ERROR.val(), "参数非法，监控机型不允许为空！");
         }
         log.info("用户数据：{}", user.toString());
-
-
         try {
             //查询订阅的邮箱是否已存在
-            List<Entity> result = Db.use().query("SELECT count(1) FROM user where status=0 and model=? and email=? and city=?", user.getModel(), user.getEmail(), user.getCity());
-            //存在 执行提醒
-            if (!result.isEmpty()) {
-                return ResultUtil.fail(CodeEnum.ERROR.val(), "订阅失败，同邮箱同城市同型号不允许重复订阅！");
+            List<Entity> result = Db.use().query("SELECT 1 FROM user where status=0 and model=? and email=? and city=?", user.getModel(), user.getEmail(), user.getCity());
+            //不存在 执行新增入库
+            if (result.isEmpty()) {
+                //插入数据库
+                Db.use().insert(
+                        Entity.create("user")
+                                .set("model", user.getModel())
+                                .set("email", user.getEmail())
+                                .set("city", user.getCity())
+                                .set("creationTime", new Date())
+                                .set("notificationTime", new Date())
+                );
+                return ResultUtil.success("iPhone直营店库存通知订阅成功！");
             }
-            //插入数据库
-            Db.use().insert(
-                    Entity.create("user")
-                            .set("model", user.getModel())
-                            .set("email", user.getEmail())
-                            .set("city", user.getCity())
-                            .set("creationTime", new Date())
-                            .set("notificationTime", new Date())
-            );
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return ResultUtil.success("iPhone直营店库存订阅成功！");
+        return ResultUtil.fail(CodeEnum.ERROR.val(), "订阅失败，同邮箱同城市同型号不允许重复订阅！");
+
     }
 
     /**
@@ -224,18 +223,18 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
         }
         try {
             //查询是否订阅
-            List<Entity> result = Db.use().query("SELECT count(1) FROM user where status=0 and email=?",email);
+            List<Entity> result = Db.use().query("SELECT 1 FROM user where status=0 and email=?", email);
             //不存在 执行提醒
-            if (result.isEmpty()) {
-                return ResultUtil.fail(CodeEnum.ERROR.val(), "该邮箱并未订阅库存监控通知，无需退订！");
+            if (!result.isEmpty()) {
+                log.info("已退订库存监测：{}", email);
+                //修改状态 为删除
+                Db.use().update(Entity.create().set("status", 1), Entity.create("user").set("email", email));
+                return ResultUtil.success("库存监测订阅取消完成！");
             }
-            //修改状态 为删除
-            Db.use().update(Entity.create().set("status", 1), Entity.create("user").set("email", email));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        log.info("已退订库存监测：{}", email);
-        return ResultUtil.success("库存监测订阅取消完成！");
+        return ResultUtil.fail(CodeEnum.ERROR.val(), "该邮箱并未订阅库存监控通知，无需退订！");
     }
 
     /**

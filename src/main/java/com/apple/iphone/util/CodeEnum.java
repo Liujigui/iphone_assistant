@@ -5,19 +5,19 @@ public enum CodeEnum {
     /**
      * 成功
      */
-    SUCCESS("200", "成功"),
+    SUCCESS(200, "成功"),
 
     /**
      * 操作失败
      */
-    ERROR("500", "操作失败");
+    ERROR(500, "操作失败");
 
-    CodeEnum(String value, String msg) {
+    CodeEnum(int value, String msg) {
         this.val = value;
         this.msg = msg;
     }
 
-    public String val() {
+    public int val() {
         return val;
     }
 
@@ -25,6 +25,6 @@ public enum CodeEnum {
         return msg;
     }
 
-    private String val;
+    private int val;
     private String msg;
 }
