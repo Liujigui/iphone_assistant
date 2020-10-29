@@ -107,7 +107,7 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
                 String modelName = entity.getStr("content");
                 //监测到有库存
                 if (unlocked) {
-                    log.info(DateUtil.now() + "：型号：{}",modelName,":,{}发现有库存！", storeName);
+                    log.info(DateUtil.now() + "：型号：{},{}发现有库存！",modelName,storeName);
                     //查询是否可以进行发送邮件  防止短时间发送过多 造成打扰
                     if (intervals(entity.getInt("id"))) {
                         //开始发送邮件
