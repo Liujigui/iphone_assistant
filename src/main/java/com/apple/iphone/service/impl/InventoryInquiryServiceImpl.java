@@ -107,11 +107,11 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
                 String modelName = entity.getStr("content");
                 //监测到有库存
                 if (unlocked) {
-                    log.info(DateUtil.now() + "：型号：{},{}发现有库存！",modelName,storeName);
+                    log.info(DateUtil.now() + "：型号：{},{}发现有库存！", modelName, storeName);
                     //查询是否可以进行发送邮件  防止短时间发送过多 造成打扰
                     if (intervals(entity.getInt("id"))) {
                         //开始发送邮件
-                        mailService.sendHtmlMail("监测到有库存了，手快有手慢无", "<html><head><title>contact us</title></head><body><b>" + storeName + ":</b></br><b>已经检测到你订阅的:"+modelName+"，有库存，快冲！！！</b></br>" +
+                        mailService.sendHtmlMail("监测到有库存了，手快有手慢无", "<html><head><title>contact us</title></head><body><b>" + storeName + ":</b></br><b>已经检测到你订阅的:" + modelName + "，有库存，快冲！！！</b></br>" +
                                 "<a href=\"https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability?iUP=N\">点击预约</a></body></html>", new String[]{entity.getStr("email")});
                         //更新邮件发送时间
                         updateNotificationTime(entity.getInt("id"));
@@ -185,8 +185,16 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
             return ResultUtil.fail(CodeEnum.ERROR.val(), "参数非法，监控机型不允许为空！");
         }
         log.info("用户数据：{}", user.toString());
-        //插入数据库
+
+
         try {
+            //查询订阅的邮箱是否已存在
+            List<Entity> result = Db.use().query("SELECT count(1) FROM user where status=0 and model=? and email=? and city=?", user.getModel(), user.getEmail(), user.getCity());
+            //存在 执行提醒
+            if (!result.isEmpty()) {
+                return ResultUtil.fail(CodeEnum.ERROR.val(), "订阅失败，同邮箱同城市同型号不允许重复订阅！");
+            }
+            //插入数据库
             Db.use().insert(
                     Entity.create("user")
                             .set("model", user.getModel())
@@ -215,10 +223,14 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
             return ResultUtil.fail(CodeEnum.ERROR.val(), "参数非法，邮箱地址不允许为空！");
         }
         try {
-            Db.use().update(
-                    Entity.create().set("status", 1), //修改的数据
-                    Entity.create("user").set("email", email) //where条件
-            );
+            //查询是否订阅
+            List<Entity> result = Db.use().query("SELECT count(1) FROM user where status=0 and email=?",email);
+            //不存在 执行提醒
+            if (result.isEmpty()) {
+                return ResultUtil.fail(CodeEnum.ERROR.val(), "该邮箱并未订阅库存监控通知，无需退订！");
+            }
+            //修改状态 为删除
+            Db.use().update(Entity.create().set("status", 1), Entity.create("user").set("email", email));
         } catch (SQLException e) {
             e.printStackTrace();
         }
