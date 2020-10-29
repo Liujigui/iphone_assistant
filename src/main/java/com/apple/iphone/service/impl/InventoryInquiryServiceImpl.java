@@ -61,16 +61,6 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
     private String stores;
 
     /**
-     * @Author liujg
-     * @Description //TODO server酱 秘钥
-     * @Date 08:27 2020/10/28
-     * @Param
-     * @return
-     **/
-    @Value("${serverj.sckey}")
-    private String sckey;
-
-    /**
      * @return
      * @Author liujg
      * @Description //TODO 间隔定时执行查询
