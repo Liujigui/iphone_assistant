@@ -8,8 +8,8 @@ spring:
     port: 465
     protocol: smtp #smtp
     username: liujiguijava@163.com  # #*****@qq.com
-    nickname: 苹果直营店库存监控订阅消息 #邮件通知主题
-    password: VOBPMUWKNJOZCNNZI #邮箱账号密码或者三方登录授权码 #jwgteykojlf*****
+    nickname: 直营店库存监控小助手 #邮件通知主题
+    password: VOBPMUWKNJAOZCNNI #邮箱账号密码或者三方登录授权码 #jwgteykojlf*****
     default-encoding:  UTF-8
     properties:
       mail:
@@ -25,3 +25,16 @@ apple:
   stockAddress: https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability.json
   #apple 直营店信息
   stores: https://reserve-prime.apple.com/CN/zh_CN/reserve/A/stores.json
+
+
+# 服务监控
+management:
+  endpoint:
+    health:
+      show-details: always
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
