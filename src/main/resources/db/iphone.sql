@@ -117,9 +117,10 @@ CREATE TABLE `user` (
   `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
   `city` varchar(255) DEFAULT NULL COMMENT '城市',
   `status` int(2) DEFAULT '0' COMMENT '状态 1取消 0正常',
-  `creationTime` datetime DEFAULT NULL,
+  `creationTime` datetime DEFAULT NULL COMMENT '创建时间',
+  `notificationTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '上一次发送邮件时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of user
