@@ -296,8 +296,8 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
                 if (!StringUtils.isEmpty(notificationTime)) {
                     Date notifTime = DateUtil.parse(notificationTime, "yyyy-MM-dd HH:mm:ss");
                     long betweenSecond = DateUtil.between(curTime, notifTime, DateUnit.SECOND);
-                    //大于等于90则可以进行重新发送邮件通知
-                    flag[0] = betweenSecond >= 90;
+                    //大于等于300则可以进行重新发送邮件通知（5分钟内不重复发）
+                    flag[0] = betweenSecond >= 300;
                     log.info("相隔时间(秒)：{}", betweenSecond);
                 }
             });
