@@ -19,7 +19,7 @@ public class TimedTask {
     private InventoryInquiryService inventoryInquiryService;
 
     //表示每隔3秒 执行一次
-    @Scheduled(fixedRate = 2000)
+    @Scheduled(fixedRate = 1000)
     private void monitorInventory(){
         inventoryInquiryService.intervalQuery();
     }

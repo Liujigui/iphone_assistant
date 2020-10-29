@@ -123,11 +123,9 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
                         //更新邮件发送时间
                         updateNotificationTime(entity.getInt("id"));
                     }
-                    serverj(storeName, "已经检测到你订阅的型号有库存，快冲！！！");
-                } else {
-                    //log.warn(DateUtil.now() + ": {}没有库存！", storeName);
                 }
             });
+            log.warn("当前时间：" + DateUtil.now());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -231,7 +229,7 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        log.info("已退订库存监测：{}",email);
+        log.info("已退订库存监测：{}", email);
         return ResultUtil.success("库存监测订阅取消完成！");
     }
 
@@ -321,19 +319,4 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
         }
     }
 
-    /**
-     * @return
-     * @Author liujg
-     * @Description //TODO 发送微信消息通知
-     * @Date 2020年10月28日08:22:22
-     * @Param text：消息标题，最长为256，必填。
-     * @Param desp：消息内容，最长64Kb，可空，支持MarkDown。
-     **/
-    public void serverj(String text, String desp) {
-        HashMap<String, Object> paramMap = new HashMap<>();
-        paramMap.put("text", text);
-        paramMap.put("desp", desp);
-        HttpUtil.post("https://sc.ftqq.com/" + sckey + ".send", paramMap);
-        log.info("微信消息发送成功！");
-    }
 }
