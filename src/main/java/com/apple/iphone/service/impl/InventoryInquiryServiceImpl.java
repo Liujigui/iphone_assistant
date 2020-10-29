@@ -119,7 +119,7 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
                     //查询是否可以进行发送邮件  防止短时间发送过多 造成打扰
                     if (intervals(entity.getInt("id"))) {
                         //开始发送邮件
-                        mailService.sendHtmlMail("兄弟，有库存了", "<html><head><title>contact us</title></head><body><b>" + storeName + ":</b></br><b>已经检测到你订阅的型号有库存，快冲！！！</b></br><a href=\"https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability?iUP=N\">点击预约</a></body></html>", new String[]{entity.getStr("email")});
+                        mailService.sendHtmlMail("兄弟，监测到有库存了，手快有手慢无", "<html><head><title>contact us</title></head><body><b>" + storeName + ":</b></br><b>已经检测到你订阅的型号有库存，快冲！！！</b></br><a href=\"https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability?iUP=N\">点击预约</a></body></html>", new String[]{entity.getStr("email")});
                         //更新邮件发送时间
                         updateNotificationTime(entity.getInt("id"));
                     }
@@ -202,6 +202,7 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
                             .set("email", user.getEmail())
                             .set("city", user.getCity())
                             .set("creationTime", new Date())
+                            .set("notificationTime", new Date())
             );
         } catch (SQLException e) {
             e.printStackTrace();
