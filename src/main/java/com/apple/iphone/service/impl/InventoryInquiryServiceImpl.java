@@ -93,7 +93,7 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
             return;
         }
         try {
-            List<Entity> result = Db.use().query("SELECT U.id,M.model,S.storeNumber,U.email,u.city,s.storeName FROM USER U JOIN MODEL M ON U.model=M.ID JOIN stores S ON U.city=S.city WHERE U.`status`=?", 0);
+            List<Entity> result = Db.use().query("SELECT U.id,M.model,M.content,S.storeNumber,U.email,u.city,s.storeName FROM USER U JOIN MODEL M ON U.model=M.ID JOIN stores S ON U.city=S.city WHERE U.`status`=?", 0);
             result.forEach(entity -> {
                 //查询指定门店库存信息
                 JSONObject stores = storesInfo.getJSONObject(entity.getStr("storeNumber"));
@@ -103,13 +103,15 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
                 boolean unlocked = model.getJSONObject("availability").getBool("unlocked");
                 //城市和门店名称
                 String storeName = entity.getStr("city") + entity.getStr("storeName");
+                //机型名称
+                String modelName = entity.getStr("content");
                 //监测到有库存
                 if (unlocked) {
                     log.info(DateUtil.now() + ": {}发现有库存！", storeName);
                     //查询是否可以进行发送邮件  防止短时间发送过多 造成打扰
                     if (intervals(entity.getInt("id"))) {
                         //开始发送邮件
-                        mailService.sendHtmlMail("兄弟，监测到有库存了，手快有手慢无", "<html><head><title>contact us</title></head><body><b>" + storeName + ":</b></br><b>已经检测到你订阅的型号有库存，快冲！！！</b></br><a href=\"https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability?iUP=N\">点击预约</a></body></html>", new String[]{entity.getStr("email")});
+                        mailService.sendHtmlMail("兄弟，监测到有库存了，手快有手慢无", "<html><head><title>contact us</title></head><body><b>" + storeName + ":</b></br><b>已经检测到你订阅的:"+modelName+"，有库存，快冲！！！</b></br><a href=\"https://reserve-prime.apple.com/CN/zh_CN/reserve/A/availability?iUP=N\">点击预约</a></body></html>", new String[]{entity.getStr("email")});
                         //更新邮件发送时间
                         updateNotificationTime(entity.getInt("id"));
                     }
