@@ -33,21 +33,6 @@ CREATE TABLE `model` (
 -- Records of model
 -- ----------------------------
 BEGIN;
-INSERT INTO `model` VALUES (1, 'MG7Y3CH/A', 'iPhone 12 mini-64G-黑色', 5499.00);
-INSERT INTO `model` VALUES (2, 'MG803CH/A', 'iPhone 12 mini-64G-白色', 5499.00);
-INSERT INTO `model` VALUES (3, 'MG813CH/A', 'iPhone 12 mini-64G-红色', 5499.00);
-INSERT INTO `model` VALUES (4, 'MG823CH/A', 'iPhone 12 mini-64G-蓝色', 5499.00);
-INSERT INTO `model` VALUES (5, 'MG833CH/A', 'iPhone 12 mini-64G-绿色', 5499.00);
-INSERT INTO `model` VALUES (6, 'MG843CH/A', 'iPhone 12 mini-128G-黑色', 5999.00);
-INSERT INTO `model` VALUES (7, 'MG853CH/A', 'iPhone 12 mini-128G-白色', 5999.00);
-INSERT INTO `model` VALUES (8, 'MG863CH/A', 'iPhone 12 mini-128G-红色', 5999.00);
-INSERT INTO `model` VALUES (9, 'MG873CH/A', 'iPhone 12 mini-128G-蓝色', 5999.00);
-INSERT INTO `model` VALUES (10, 'MG883CH/A', 'iPhone 12 mini-128G-绿色', 5999.00);
-INSERT INTO `model` VALUES (11, 'MG893CH/A', 'iPhone 12 mini-256G-黑色', 6799.00);
-INSERT INTO `model` VALUES (12, 'MG8A3CH/A', 'iPhone 12 mini-256G-白色', 6799.00);
-INSERT INTO `model` VALUES (13, 'MG8C3CH/A', 'iPhone 12 mini-256G-红色', 6799.00);
-INSERT INTO `model` VALUES (14, 'MG8D3CH/A', 'iPhone 12 mini-256G-蓝色', 6799.00);
-INSERT INTO `model` VALUES (15, 'MG8E3CH/A', 'iPhone 12 mini-256G-绿色', 6799.00);
 INSERT INTO `model` VALUES (16, 'MGL93CH/A', 'iPhone 12 Pro-128G-黑色', 8499.00);
 INSERT INTO `model` VALUES (17, 'MGLA3CH/A', 'iPhone 12 Pro-128G-白色', 8499.00);
 INSERT INTO `model` VALUES (18, 'MGLC3CH/A', 'iPhone 12 Pro-128G-金色', 8499.00);
