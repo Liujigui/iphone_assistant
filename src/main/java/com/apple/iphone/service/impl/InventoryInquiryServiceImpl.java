@@ -125,7 +125,7 @@ public class InventoryInquiryServiceImpl implements InventoryInquiryService {
                     }
                     serverj(storeName, "已经检测到你订阅的型号有库存，快冲！！！");
                 } else {
-                    log.warn(DateUtil.now() + ": {}没有库存！", storeName);
+                    //log.warn(DateUtil.now() + ": {}没有库存！", storeName);
                 }
             });
         } catch (SQLException e) {
