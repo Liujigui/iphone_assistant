@@ -6,8 +6,6 @@ import com.apple.iphone.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
-
 /**
  * @program: iphone
  * @ClassName InventoryInquiryController
