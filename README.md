@@ -28,8 +28,8 @@ mysql 5.7
 5.  邮箱通知，需要修改application.yml中配置。
 
 #### V2.0新增可视化操作界面
-![输入图片说明](https://images.gitee.com/uploads/images/2020/1028/173905_54cebdaa_1890767.png "QQ截图20201028173836.png")
+![操作页面](https://images.gitee.com/uploads/images/2020/1030/091016_dd893202_1890767.png "2.png")
 
 #### 效果
-![输入图片说明](https://images.gitee.com/uploads/images/2020/1028/101357_b685c288_1890767.png "QQ截图20201028092635.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2020/1028/101501_6d9f36b8_1890767.png "QQ截图20201028101445.png")
+![实际效果](https://images.gitee.com/uploads/images/2020/1028/101357_b685c288_1890767.png "QQ截图20201028092635.png")
+![提醒邮件](https://images.gitee.com/uploads/images/2020/1030/091108_78eebf46_1890767.png "3.png")
